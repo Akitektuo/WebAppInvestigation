@@ -4,3 +4,10 @@ export interface ReviewType {
     rating: number;
     description: string;
 }
+
+export const EMPTY_REVIEW: ReviewType = {
+    title: "",
+    username: "",
+    rating: 0,
+    description: ""
+};

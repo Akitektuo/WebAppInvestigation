@@ -1,13 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-interface Emits {
-    (e: "open"): void;
-    (e: "close"): void;
+interface Props {
+    isOpen?: boolean;
 }
+
+interface Emits {
+    (e: "clickOutside"): void;
+}
+
 const emit = defineEmits<Emits>();
+const props = defineProps<Props>();
 
 const handleBackgroundClick = () => {
-    emit("close");
+    emit("clickOutside");
 }
 
 const handleContainerClick = (event: MouseEvent) => {
@@ -15,8 +20,10 @@ const handleContainerClick = (event: MouseEvent) => {
 }
 </script>
 <template>
-    <div class="dialog-background" @click="handleBackgroundClick">
-        <div class="dialog-container" @click="handleContainerClick">A</div>
+    <div v-if="props.isOpen" class="dialog-background" @mousedown="handleBackgroundClick">
+        <div class="dialog-container" @mousedown="handleContainerClick">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <style lang="scss" scoped>

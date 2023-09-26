@@ -7,8 +7,10 @@
     background: none;
     color: var(--color-text);
     border-radius: 1em;
-    line-height: .55em;
-    padding: .3em;
+    line-height: 0;
+    width: 1em;
+    height: 1em;
+    text-align: center;
     border: .1rem solid;
     cursor: pointer;
 

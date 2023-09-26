@@ -1,28 +1,33 @@
 <script setup lang="ts">
 import ReviewView from "./components/ReviewView.vue";
-import AddButton from "../../components/AddButton.vue";
-import Dialog from "../../components/Dialog.vue";
 import { useReviewsStore } from "./reviews.store";
+import AddReviewDialog from "./add/AddReviewDialog.vue";
+import type { ReviewType } from "./reviews.types";
+import { AddButton, Star } from "@/components";
 
 const store = useReviewsStore();
-const handleClose = () => {
-    console.log("Will close");
+
+const handleAddClick = () => store.setIsAddDialogOpen(true);
+const handleClose = () => store.setIsAddDialogOpen(false);
+const handleNewReview = (review: ReviewType) => {
+    store.add(review);
+    handleClose();
 }
 </script>
 <template>
     <div>
         <div class="header">
-            <h1>Reviews ({{ store.reviewsCount }} in total)</h1>
-            <AddButton />
+            <h1>Reviews ({{ store.reviewsCount }} in total - average of {{ store.averageRating }} <Star :size="28" />)</h1>
+            <AddButton @click="handleAddClick" />
         </div>
         <ReviewView :review="review" class="review" v-for="review in store.reviews" :key="review.title" />
     </div>
-    <Dialog @close="handleClose"></Dialog>
+    <AddReviewDialog :is-open="store.isAddDialogOpen" @cancel="handleClose" @submit="handleNewReview" />
 </template>
 <style lang="scss" scoped>
 .header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
 }
 
